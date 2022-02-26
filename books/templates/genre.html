@@ -1,0 +1,17 @@
+{% extends 'header.html' %}
+{% block content %}
+    <h1>{{genre.name}}</h1>
+
+    {% for book in genre.book_set.all %}
+        <p> 
+            <a href={% url 'book' book_id=book.id %}>
+                {% if book.name_romaji %}
+                    {{ book.name_romaji }}
+                {% else %}
+                    {{ book.name_japanese }}
+                {% endif %}
+            </a> 
+        </p>
+
+    {% endfor %}
+{% endblock %}

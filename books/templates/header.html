@@ -1,0 +1,24 @@
+
+<!DOCTYPE html>
+<title>hontone</title>
+{% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+</head>
+
+<body>
+    <div class='page-header'>
+        <div class='hontone-page-title'>
+            <h1><a href="/">honton-E</a></h1>
+            <!-- Was playing around with fonts, feel free to change it. I figure we will have a custom drawn image for our official one -->
+        </div>
+    </div>
+    <main class="container">
+        <div class="row">
+            <div class="col">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </main>
+</body>

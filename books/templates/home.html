@@ -1,0 +1,13 @@
+<!-- 'books' comes from the context in the views.py
+book.genre_id.name_r gives us the name in romaji
+-->
+{% extends 'header.html' %}
+{% block content %}
+
+    <h1>Books:</h1>
+    {% for book in books %}
+        <h3><a href={% url 'book' book_id=book.id %}>{{book.id}}. {{book.name}}</a></h3>
+    {% endfor %}
+
+    <br>
+{% endblock %}
