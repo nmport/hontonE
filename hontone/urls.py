@@ -20,5 +20,8 @@ from hontone import views
 # we will probably need to reevaluate our urls, which will be the home page and how we want to layout
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('login', views.login, name='login'),
+    path('logout', views.logout, name='logout'),
+    path('users', views.show_users, name='user'), # NOTE: temporary, will only be used to see the users we make
     path('', include('books.urls'))
 ]

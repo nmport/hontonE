@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from books.models import Book, Genre
+from django.contrib.auth.decorators import login_required
+from books.models import Book, Author, Genre
 
 def home(request):
     #django ORM object
@@ -16,6 +17,18 @@ def book(request, book_id):
         'book': book
     }
     return render(request, 'book.html', context)
+
+
+
+########################################WORK ON ME LATER################################################
+#TODO: author views
+    #path('author/<int:author_id>/', views.author_stories, name='author_stories')
+def author_stories(request, author_id):
+    author = Author.objects.get(id=author_id)
+    context = {
+        'author': author
+    }
+    return render(request, 'author.html', context)
 
 
 #TODO: genre views

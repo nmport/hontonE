@@ -5,6 +5,12 @@ book.genre_id.name_r gives us the name in romaji
 {% block content %}
 
     <h1>{{book.name}}</h1>
+    <!-- <h2>{{book.author_names}}</h2> -->
+    <h2>
+    {% for author in book.authors.all %}
+        <a href={% url 'author_stories' author_id=author.id %}>{{author.name}}</a>
+    {% endfor %}
+    </h2>
     {% if book.genre %}
         <h2><a href={% url 'genre_stories' genre_id=book.genre.id %}>{{book.genre.name}}</a></h2>
     {% endif %}

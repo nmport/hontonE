@@ -12,6 +12,17 @@
             <h1><a href="/">honton-E</a></h1>
             <!-- Was playing around with fonts, feel free to change it. I figure we will have a custom drawn image for our official one -->
         </div>
+        <div class='hontone-user-info'>
+            <span>
+                {% if request.user.is_authenticated %}
+                    <img src="{% static 'HontoneUser' %}" width="75" height="75">
+                    <p>{{ request.user.username }} <a title='Logout' href={% url 'logout' %}>[x]</a></p>
+                {% else %}
+                    <p class='login'><a href={% url 'login' %}>Login</a></p>
+                    <p><a href={% url 'login' %}>Sign Up</a></p>
+                {% endif %}
+            </span>
+        </div>
     </div>
     <main class="container">
         <div class="row">

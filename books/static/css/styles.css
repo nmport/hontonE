@@ -30,3 +30,40 @@ h1{
   text-shadow: skyblue;
 }
 
+.hontone-user-info{
+  height: 110px;
+  width: 200px;
+  background-color: seashell;
+  padding-top: 7px;
+  padding-bottom: 10px;
+  margin: 10px 10px 10px 10px;
+  text-align: center;
+}
+
+.hontone-user-info img{
+  margin: 0px 0px 0px 0px
+}
+
+.hontone-user-info .login{
+  padding-top: 20px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.column {
+  float: left;
+  width: 50.00%;
+  padding: 10px;
+}
+
+.container{
+  margin: 20px 20px 20px 20px
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}

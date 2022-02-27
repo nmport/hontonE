@@ -6,7 +6,7 @@ book.genre_id.name_r gives us the name in romaji
 
     <h1>Books:</h1>
     {% for book in books %}
-        <h3><a href={% url 'book' book_id=book.id %}>{{book.id}}. {{book.name}}</a></h3>
+        <h3><a href={% url 'book' book_id=book.id %}>{{book.id}}. {{book.name}} : {{book.author_names}}</a></h3>
     {% endfor %}
 
     <br>

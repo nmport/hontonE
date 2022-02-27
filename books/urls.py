@@ -20,6 +20,12 @@ urlpatterns = [
     #the name variable corresponds to the html file (??) or what exactly is it doing?
     path('', views.home, name='home'),
     path('books/<int:book_id>', views.book, name='book'),
+    #TODO: use author path
+    path('authors/<int:author_id>', views.author_stories, name='author_stories'),
+
+    # #TODO: use authors path -- need to implement a page just to see all the available authors, can later be used to search
+    # path('authors', views.author_stories, name='author_stories'),
+
     #TODO: use genre path
     path('genres/<int:genre_id>', views.genre_stories, name='genre_stories'),
 

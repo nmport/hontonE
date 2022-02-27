@@ -1,0 +1,20 @@
+{% extends 'header.html' %}
+
+{% block content %}
+    <body>
+    <div >
+        <h1>Login/Register</h1>
+        <!-- Load error message if there is one -->
+        {% if error_msg %}
+            <p class="error">{{ error_msg }}</p>
+        {% endif %}
+
+        <!-- Load the login form as defined in hontone/forms.py -->
+        <form action="/login" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    </body>
+{% endblock %}
