@@ -20,6 +20,7 @@ urlpatterns = [
     #the name variable corresponds to the html file (??) or what exactly is it doing?
     path('', views.home, name='home'),
     path('books/<int:book_id>', views.book, name='book'),
+    path('books/<int:book_id>/info', views.book_info, name='book_info'),
     #TODO: use author path
     path('authors/<int:author_id>', views.author_stories, name='author_stories'),
 
@@ -29,4 +30,6 @@ urlpatterns = [
     #TODO: use genre path
     path('genres/<int:genre_id>', views.genre_stories, name='genre_stories'),
 
+    #this is an endpoint that does something
+    path('update_definitions', views.update_definitions, name='update_defs')
 ]

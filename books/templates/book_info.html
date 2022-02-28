@@ -1,0 +1,35 @@
+{% extends 'header.html' %}
+{% block content %}
+    <h1><a href={% url 'book' book_id=book.id %}>{{book.name}}</a></h1>
+    <h2>
+    {% for author in book.authors.all %}
+        <a href={% url 'author_stories' author_id=author.id %}>{{author.name}}</a>
+    {% endfor %}
+    </h2>
+    {% if book.genre %}
+        <h2><a href={% url 'genre_stories' genre_id=book.genre.id %}>{{book.genre.name}}</a></h2>
+    {% endif %}
+
+    {% for line in book_lines %}
+        <h1>{{ line.line_japanese }} {{ line.get_indices }} </h1>
+        <div class="row">
+        {% for book_word in line.book_words %}
+            <div class="card">
+                <p>DICTIONARY FORM: {{ book_word.dict_form }}</p>
+
+                {% if book_word.definitions.all %}
+                    <p>Definitions: </p>
+                    {% for definition in book_word.definitions.all %}
+                        <li>{{ definition }}</li>
+                    {% endfor %}
+                {% elif book_word.is_particle %}
+                    <p>Particle info coming soon!</p>
+                {% else %}
+                    <p>No Definition Found</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+        </div>
+    {% endfor %}
+
+{% endblock %}
