@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import Http404
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from books.models import Book, Author, Genre, Word
+from books.models import Book, Author, Genre, Word, BookWord, BookLine
 from books.parser import create_book_contents_object
 
 def home(request):
@@ -23,12 +23,15 @@ def book(request, book_id):
 
 def book_info(request, book_id):
     book = Book.objects.get(id=book_id)
-    book_words = list(Word.objects.filter(book=book))
+    update = request.GET.get('update', False) if request.method == 'GET' else False
+    book_words = list(BookWord.objects.filter(book=book))
     if not book_words:
         create_book_contents_object(book)
     context = {
+        #book_info is a BookContents object, so we are also create BookWord, BookLine objects within it
         #for this to work, Book model must have content_lines attribute as an array with [line1, line2, ...]
         "book_words": book_words,
+        "book_lines": list(book.book_lines.all()),
         'book': book
     }
     return render(request, 'book_info.html', context)

@@ -15,14 +15,16 @@
         <div class="row">
         {% for book_word in line.book_words %}
             <div class="card">
-                <p>DICTIONARY FORM: {{ book_word.dict_form }}</p>
+                <p>DICTIONARY FORM: {{ book_word.word.dict_form }}</p>
+                <p>OCCURENCES: {{ book_word.occurences }}</p>
+                <p>INDICES: {{ book_word.get_indices }}</p>
 
-                {% if book_word.definitions.all %}
+                {% if book_word.word.definitions.all %}
                     <p>Definitions: </p>
-                    {% for definition in book_word.definitions.all %}
+                    {% for definition in book_word.word.definitions.all %}
                         <li>{{ definition }}</li>
                     {% endfor %}
-                {% elif book_word.is_particle %}
+                {% elif book_word.word.is_particle %}
                     <p>Particle info coming soon!</p>
                 {% else %}
                     <p>No Definition Found</p>

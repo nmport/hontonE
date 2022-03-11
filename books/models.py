@@ -48,6 +48,54 @@ class Book(models.Model):
     @property
     def to_romaji(self):
         pass
+
+class BookLine(models.Model):
+    indices = models.CharField(max_length=100) #this needs to be optimized for being a list
+    line_romaji = models.CharField(max_length=200, null=True, default=None)
+    line_japanese = models.CharField(max_length=200)
+    words = models.ManyToManyField('Word', related_name='book_lines')
+    book = models.ForeignKey('Book', related_name='book_lines', on_delete=models.CASCADE)
+
+    @cached_property
+    def book_words(self):
+        return [word.book_words.get(book=self.book) for word in self.words.all()]
+
+    def add_index(self, index):
+        indices = self.get_indices()
+        
+        if int(index) not in indices:
+            self.indices = ';'.join(map(str, indices + [index]))
+            self.save()
+
+    def get_indices(self):
+        return list(map(int, self.indices.split(';'))) if self.indices else []
+
+    @property
+    def occurences(self):
+        return len(self.get_indices())
+
+class BookWord(models.Model):
+    indices = models.CharField(max_length=1000, default="")
+    word = models.ForeignKey('Word', related_name='book_words', null=True, on_delete=models.SET_NULL)
+    book = models.ForeignKey('Book', related_name='book_words', on_delete=models.CASCADE)
+
+    def add_index(self, index):
+        indices = self.get_indices()
+        
+        if int(index) not in indices:
+            self.indices = ';'.join(map(str, indices + [index]))
+            self.save()
+
+    def get_indices(self):
+        return list(map(int, self.indices.split(';'))) if self.indices else []
+
+    @property
+    def occurences(self):
+        return len(self.get_indices())
+
+    #using django's "create" method for models, we can create Word models in parser and pass in book_, reading_, dict_, and pos_array
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
         
         
 class Word(models.Model):

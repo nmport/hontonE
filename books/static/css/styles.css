@@ -48,22 +48,82 @@ h1{
   padding-top: 20px;
 }
 
+.page {
+    height: auto;
+    width: 20vw;
+    min-width: 200px;
+    text-align: center;
+    margin: auto;
+}
+
+.field {
+    content: "";
+    display: table;
+    clear: both;
+    text-align: left;
+}
+
+.field-column {
+    text-align: left;
+    float: left;
+    width: 50%;
+}
+.field-form {
+    text-align: right;
+    float: right;
+}
 * {
   box-sizing: border-box;
 }
 
+
+.column-line{
+  height: auto;
+}
+/* Create three equal columns that floats next to each other */
 .column {
   float: left;
   width: 50.00%;
   padding: 10px;
+  height: 400px; /*Should be removed. Only for demonstration*/
+}
+
+.column p {
+  padding-top: 5px;
+  padding-bottom: 0px;
+  margin: 0px 0px 0px 0px;
+}
+
+.column li {
+  padding-bottom: 0px;
+  padding-top: 0px;
+  margin: 0px 0px 0px 0px;
+  font-size: 10pt;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 800px) {
+  .column {
+    width: 100%;
+  }
+}
+
+.card {
+  padding-bottom: 5px;
 }
 
 .container{
   margin: 20px 20px 20px 20px
 }
 
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
+.error{
+  color: red
 }
+
