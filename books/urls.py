@@ -21,6 +21,9 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('books/<int:book_id>', views.book, name='book'),
     path('books/<int:book_id>/info', views.book_info, name='book_info'),
+    path('books/<int:book_id>/add', views.add_book, name='add_book'), #not implemented
+    path('book-lines/<int:book_line_id>/add', views.add_line, name='add_line'),
+    path('book-words/<int:word_id>/add', views.add_word, name='add_word'),
     #TODO: use author path
     path('authors/<int:author_id>', views.author_stories, name='author_stories'),
 

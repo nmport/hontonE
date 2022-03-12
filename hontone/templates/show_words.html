@@ -1,0 +1,12 @@
+{% extends 'header.html' %}
+
+{% block content %}
+
+    <h1>User Words: </h1>
+    <h4><a href={% url 'clear_words' %}>Clear All Words</a></h4>
+    {% for user_word in user_words %}
+        <p>{{user_word.word.book_form}}, {{user_word.word.dict_form}}</p>
+        <h4><a href={% url 'remove_word' user_word_id=user_word.id %}>Remove Word</a></h4>
+    {% endfor %}
+
+{% endblock %}

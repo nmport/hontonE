@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect
 from django.http import Http404
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+import time, re
 from books.models import Book, Author, Genre, Word, BookWord, BookLine
+from hontone.models import UserWord, WordDeck
 from books.parser import create_book_contents_object
 
 def home(request):
@@ -36,7 +38,66 @@ def book_info(request, book_id):
     }
     return render(request, 'book_info.html', context)
 
+@login_required(login_url='/login')
+def add_book(request, book_id):
+    book = Book.objects.get(id=book_id)
+    user_words = []
+    user = request.user
+    for book_word in book.book_words.all():
+        #NOTE: if request.user.user_words.filter(word=book_word.word).exists()
+        user_word = UserWord.objects.filter(user=request.user, word=book_word.word).first()
+        if not user_word:
+            user_word = UserWord.objects.create(
+                user=user,
+                word=book_word.word
+            )
+        user_words.append(user_word)
+    
+    # This part we are checking if an existing word deck exists with a book name, 
+    # we might have cases where users have previously created a word deck for the book but removed 
+    # The word, in this case we want to preserve that word deck and create a new one for them instead. 
+    # If one already exists with all the same words, we don't need to make a WordDeck
+    book_name = "{} - {}".format(
+        book.name_romaji if not book.name_japanese else book.name_japanese, 
+        ", ".join([author.name for author in book.authors.all()])
+    )
+    existing_book_word_decks = WordDeck.objects.filter(user=user, name__startswith=book_name)
+    if not existing_book_word_decks.filter(user_words__in=user_words, books=book).exists() or True:
+        # Checking what other names exist so as to give the created WordDeck a unique name ie. book_name (2)
+        max_index = -1
+        print(existing_book_word_decks)
+        for word_deck in existing_book_word_decks:
+            if re.match(book_name + '( \([1-9][0-9]*\)$|$)', word_deck.name):
+                index_str = word_deck.name.split(book_name, maxsplit=1)[-1].strip(' ()')
+                index = int(index_str) if index_str.isnumeric() else 0
+                max_index = max(max_index, index)
+            
+        name_suffix = f" ({max_index+1})" if max_index != -1 else ""
+        print(name_suffix)
+        WordDeck.objects.create(user=user, name=book_name+name_suffix, book=book).user_words.set(user_words)
+    return redirect('show_words')
 
+@login_required(login_url='/login')
+def add_line(request, book_line_id):
+    book_line = BookLine.objects.get(id=book_line_id)
+    for word in book_line.words.all():
+        if not UserWord.objects.filter(user=request.user, word=word).exists():
+            UserWord.objects.create(
+                user=request.user,
+                word=word
+            )
+    return redirect('show_words')
+
+@login_required(login_url='/login')
+def add_word(request, word_id):
+    word = Word.objects.get(id=word_id)
+    if not UserWord.objects.filter(user=request.user, word=word).exists():
+        UserWord.objects.create(
+            user=request.user,
+            word=word
+        )
+    return redirect('show_words')
+    
 ########################################WORK ON ME LATER################################################
 #TODO: author views
     #path('author/<int:author_id>/', views.author_stories, name='author_stories')

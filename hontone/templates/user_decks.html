@@ -1,0 +1,11 @@
+{% extends 'header.html' %}
+
+{% block content %}
+
+    <h1>Word Decks: </h1>
+    <br/>
+    {% for word_deck in word_decks %}
+        <p><a href=''>{{ word_deck.name }}</a></p>
+    {% endfor %}
+
+{% endblock %} 

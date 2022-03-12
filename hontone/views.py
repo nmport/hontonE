@@ -52,3 +52,27 @@ def show_users(request):
         'users': users
     }
     return render(request, 'users.html', context)
+
+@login_required(login_url='/login')
+def show_word_decks(request):
+    context = {
+        'word_decks': request.user.word_decks.all()
+    }
+    return render(request, 'user_decks.html', context)
+
+@login_required(login_url='/login')
+def show_words(request):
+    context = {
+        'user_words': request.user.user_words.all()
+    }
+    return render(request, 'show_words.html', context)
+
+@login_required(login_url='/login')
+def clear_words(request):
+    request.user.user_words.all().delete()
+    return redirect('show_words')
+
+@login_required(login_url='/login')
+def remove_word(request, user_word_id):
+    request.user.user_words.get(id=user_word_id).delete()
+    return redirect('show_words')

@@ -1,6 +1,9 @@
 {% extends 'header.html' %}
 {% block content %}
     <h1><a href={% url 'book' book_id=book.id %}>{{book.name}}</a></h1>
+    {% if request.user.is_authenticated %}
+        <h4><a href={% url 'add_book' book_id=book.id %}>Add All Words</a></h4>
+    {% endif %}
     <h2>
     {% for author in book.authors.all %}
         <a href={% url 'author_stories' author_id=author.id %}>{{author.name}}</a>
@@ -12,9 +15,15 @@
 
     {% for line in book_lines %}
         <h1>{{ line.line_japanese }} {{ line.get_indices }} </h1>
+        {% if request.user.is_authenticated %}
+            <h4><a href={% url 'add_line' book_line_id=line.id %}>Add Words From Line</a></h4>
+        {% endif%}
         <div class="row">
         {% for book_word in line.book_words %}
             <div class="card">
+                {% if request.user.is_authenticated %}
+                    <h4><a href={% url 'add_word' word_id=book_word.word.id %}>Add Word</a></h4>
+                {% endif %}
                 <p>DICTIONARY FORM: {{ book_word.word.dict_form }}</p>
                 <p>OCCURENCES: {{ book_word.occurences }}</p>
                 <p>INDICES: {{ book_word.get_indices }}</p>

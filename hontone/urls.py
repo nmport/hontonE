@@ -23,5 +23,9 @@ urlpatterns = [
     path('login', views.login, name='login'),
     path('logout', views.logout, name='logout'),
     path('users', views.show_users, name='user'), # NOTE: temporary, will only be used to see the users we make
+    path('word-decks', views.show_word_decks, name='show_word_decks'),
+    path('user-words', views.show_words, name='show_words'),
+    path('user-words/delete-all', views.clear_words, name='clear_words'),
+    path('user-words/<int:user_word_id>/delete', views.remove_word, name='remove_word'),
     path('', include('books.urls'))
 ]
