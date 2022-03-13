@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.functional import cached_property
 from books.search import JishoSearch
+#from books.parser import is_all_kana
 # from search import JishoSearch
 
 POEM = 'POEM'
@@ -50,7 +51,7 @@ class Book(models.Model):
         pass
 
 class BookLine(models.Model):
-    indices = models.CharField(max_length=100) #this needs to be optimized for being a list
+    indices = models.CharField(max_length=100, default="") #this needs to be optimized for being a list
     line_romaji = models.CharField(max_length=200, null=True, default=None)
     line_japanese = models.CharField(max_length=200)
     words = models.ManyToManyField('Word', related_name='book_lines')
@@ -103,6 +104,7 @@ class Word(models.Model):
     reading_form = models.CharField(max_length=35)
     dict_form = models.CharField(max_length=35)
     part_of_speech_array = models.CharField(max_length=200) #in the save method, this is converted to an easy to use string vs sudachipy raw POS array (ex: ['動詞', '一般', '*', '*', '五段-ラ行', '連用形-促音便'])
+    is_all_kana = models.BooleanField(default=True)
     #word = models.ForeignKey(Word, related_name='definitions', on_delete=models.CASCADE) is the line in Definition model where we get self.definit
     @cached_property
     def word_definitions(self):

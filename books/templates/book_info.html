@@ -21,6 +21,14 @@
         <div class="row">
         {% for book_word in line.book_words %}
             <div class="card">
+                <h2>
+                    <ruby>
+                        {{ book_word.word.book_form }}
+                        {% if not book_word.word.is_all_kana %}
+                            <rp>(</rp><rt>{{ book_word.word.reading_form }}</rt><rp>)</rp>
+                        {% endif %}
+                    </ruby>
+                </h2>
                 {% if request.user.is_authenticated %}
                     <h4><a href={% url 'add_word' word_id=book_word.word.id %}>Add Word</a></h4>
                 {% endif %}
