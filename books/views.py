@@ -62,7 +62,7 @@ def add_book(request, book_id):
         ", ".join([author.name for author in book.authors.all()])
     )
     existing_book_word_decks = WordDeck.objects.filter(user=user, name__startswith=book_name)
-    if not existing_book_word_decks.filter(user_words__in=user_words, books=book).exists() or True:
+    if not existing_book_word_decks.filter(user_words__in=user_words, book=book).exists():
         # Checking what other names exist so as to give the created WordDeck a unique name ie. book_name (2)
         max_index = -1
         print(existing_book_word_decks)

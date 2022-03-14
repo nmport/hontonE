@@ -61,6 +61,34 @@ def show_word_decks(request):
     return render(request, 'user_decks.html', context)
 
 @login_required(login_url='/login')
+def clear_word_decks(request):
+    request.user.word_decks.all().delete()
+    return redirect('show_word_decks')
+
+@login_required(login_url='/login')
+def remove_word_deck(request, word_deck_id):
+    request.user.word_decks.get(id=word_deck_id).delete()
+    return redirect('show_word_decks')
+
+@login_required(login_url='/login')
+def show_word_deck(request, word_deck_id):
+    context = {
+        'word_deck': request.user.word_decks.get(id=word_deck_id)
+    }
+    return render(request, 'show_deck.html', context)   
+
+@login_required(login_url='/login')
+def clear_word_deck_words(request, word_deck_id):
+    request.user.word_decks.get(id=word_deck_id).user_words.clear()
+    return redirect('show_word_decks')
+
+@login_required(login_url='/login')
+def remove_word_deck_word(request, word_deck_id, word_id):
+    word_deck = request.user.word_decks.get(id=word_deck_id)
+    word_deck.user_words.remove(word_deck.user_words.get(id=word_id))
+    return redirect('show_word_deck', word_deck_id=word_deck_id)
+
+@login_required(login_url='/login')
 def show_words(request):
     context = {
         'user_words': request.user.user_words.all()

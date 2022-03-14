@@ -69,4 +69,4 @@ class WordDeck(models.Model):
     name = models.CharField(max_length=30)
     user_words = models.ManyToManyField(UserWord, related_name='word_decks')
     user = models.ForeignKey(HontoneUser, related_name='word_decks', on_delete=models.CASCADE)
-    books = models.ForeignKey(content_models.Book, related_name='word_decks', null=True, on_delete=models.PROTECT)
+    book = models.ForeignKey(content_models.Book, related_name='word_decks', null=True, on_delete=models.PROTECT)

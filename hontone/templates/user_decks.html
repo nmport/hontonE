@@ -3,9 +3,11 @@
 {% block content %}
 
     <h1>Word Decks: </h1>
+    <h4><a href={% url 'clear_word_decks' %}>Clear All Word Decks</a></h4>
     <br/>
     {% for word_deck in word_decks %}
-        <p><a href=''>{{ word_deck.name }}</a></p>
+        <p><a href={% url 'show_word_deck' word_deck_id=word_deck.id %}>{{ word_deck.name }}</a></p>
+        <h4><a href={% url 'remove_word_deck' word_deck_id=word_deck.id %}>Remove Word Deck</a></h4>
     {% endfor %}
 
 {% endblock %} 
