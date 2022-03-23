@@ -13,8 +13,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path
+from django.urls import path, include
 from books import views
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'books', views.BookViewSet) #creates books endpoint + books/id 
+
 
 urlpatterns = [
     #the name variable corresponds to the html file (??) or what exactly is it doing?
@@ -34,5 +39,7 @@ urlpatterns = [
     path('genres/<int:genre_id>', views.genre_stories, name='genre_stories'),
 
     #this is an endpoint that does something
-    path('update_definitions', views.update_definitions, name='update_defs')
+    path('update_definitions', views.update_definitions, name='update_defs'),
+    
+    path('', include(router.urls))
 ]

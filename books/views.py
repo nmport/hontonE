@@ -7,6 +7,9 @@ from books.models import Book, Author, Genre, Word, BookWord, BookLine
 from hontone.models import UserWord, WordDeck
 from books.parser import create_book_contents_object
 
+from rest_framework import viewsets
+from books.serializers import BookSerializer
+
 def home(request):
     #django ORM object
     books = Book.objects.all()
@@ -132,3 +135,11 @@ def update_definitions(request):
 
 #TODO: would the following need a new view? would it work on its own?
     #path('genre/<int:genre_id>/<int:book_id>/', views.book_info, name='genre_book_info')
+
+#DRF
+def list_books(request):
+    books = Person.objects.all()
+
+class BookViewSet(viewsets.ModelViewSet):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
